@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { getSession } from "@/lib/getSession";
-import { signOut } from "@/auth";
+import { signOut } from "@/services/authService";
 
 const Navbar = async () => {
     const user = null;

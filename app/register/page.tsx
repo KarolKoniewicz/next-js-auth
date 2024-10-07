@@ -1,74 +1,76 @@
+import { register } from "@/services/userService";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/getSession";
 import Link from "next/link";
-import { register } from "@/services/userService";
+import { redirect } from "next/navigation";
 
 const Register = async () => {
+  const session = await getSession();
+  const user = session?.user;
+  if (user) redirect("/");
+
   return (
-    <div className="flex flex-col mx-auto mt-10 w-full max-w-80 max-h-full border-solid border-2 border-orange-200 border-spacing-10 rounded-md bg-zinc-100">
-      <h2 className="pt-5 font-sans antialiased font-medium text-center">
+    <div className="mt-10 max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white border border-[#121212]  dark:bg-black">
+      <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
         Welcome to next-js-auth
       </h2>
-      <p className="font-sans antialiased font-normal text-center">
-        Please provide all necessary information
+      <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+        Please provide all the necessary information
       </p>
 
-      <form action={register}>
-        <div className="pt-5 m-2 justify-items-start">
-          <Label className="text-sm">First Name</Label>
-          <Input
-            className="bg-white"
-            id="firstname"
-            placeholder="John Doe"
-            type="text"
-            name="firstname"
-          />
+      <form className="my-8" action={register}>
+        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+          <div className="flex flex-col">
+            <Label htmlFor="firstname" className="mb-2">
+              First Name
+            </Label>
+            <Input
+              id="firstname"
+              placeholder="John"
+              type="text"
+              name="firstname"
+            />
+          </div>
+          <div className="flex flex-col">
+            <Label htmlFor="lastname" className="mb-2">
+              Last Name
+            </Label>
+            <Input
+              id="lastname"
+              placeholder="Doe"
+              type="text"
+              name="lastname"
+            />
+          </div>
         </div>
 
-        <div className="pt-5 m-2 justify-items-start">
-          <Label>Last Name</Label>
-          <Input
-            className="bg-white"
-            id="lastname"
-            placeholder="John Doe"
-            type="text"
-            name="lastname"
-          />
-        </div>
+        <Label htmlFor="email">Email Address</Label>
+        <Input
+          id="email"
+          placeholder="info@kpksoftwareinnovations.com"
+          type="email"
+          name="email"
+        />
 
-        <div className="pt-5 m-2 justify-items-start">
-          <Label>Email</Label>
-          <Input
-            className="bg-white"
-            id="email"
-            placeholder="test@kpksoftwareinnovations.com"
-            type="email"
-            name="email"
-          />
-        </div>
+        <Label htmlFor="password">Password</Label>
+        <Input
+          id="password"
+          placeholder="***********"
+          type="password"
+          name="password"
+          className="mb-5"
+        />
 
-        <div className="pt-5 m-2 justify-items-start">
-          <Label>Password</Label>
-          <Input
-            className="bg-white"
-            id="password"
-            placeholder="***********"
-            type="password"
-            name="password"
-          />
-        </div>
+        <button className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]">
+          Sign up &rarr;
+        </button>
 
-        <div className="flex pt-5 justify-center">
-          <Button> Sign up &rarr;</Button>
-        </div>
-
-        <p className="flex pl-5 pt-2  pb-5 text-sm text-neutral-600 max-w-sm dark:text-neutral-300">
-           <span className="pr-2">Already have an account?</span><Link href="/login"> Login</Link>
+        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+          Already have an account? <Link href="/login">Login</Link>
         </p>
       </form>
     </div>
   );
 };
-
 export default Register;
